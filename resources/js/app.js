@@ -8,6 +8,73 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import moment from 'moment';
+import VueRouter from 'vue-router'
+
+import { 
+Form,HasError, AlertError,} from 'vform';
+
+// import swal from 'sweetalert2'
+// window.swal = swal;
+
+// const toast = swal.mixin({
+//   toast: true,
+//   position: 'top-end',
+//   showConfirmButton: false,
+//   timer: 3000
+// });
+
+// window.toast = toast;
+
+// toast({
+//   type:'success',
+//   title:'User Created successfully'
+// });
+//  window.toast = toast;
+
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError);
+
+
+import VueProgressBar from 'vue-progressbar';
+
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  successColor: 'green',
+  height: '3px'
+})
+
+Vue.filter('capitalize', function(text){
+  // console.log(word, 'yuio');
+  return text.charAt(0).toUpperCase() + text.slice(1);
+});
+
+Vue.filter('myDate', function(created) {
+  return moment(created).format('MMMM Do YYYY');
+});
+
+
+Vue.use(VueRouter)
+const dashboard = require('./components/Dashboard').default;
+const profile =  require('./components/Profile.vue').default;
+const users =  require('./components/Users.vue').default;
+
+let routes = [
+    { path: '/dashboard', component: dashboard },
+    { path: '/users', component: users},
+    { path: '/profile', component: profile}
+    
+  ]
+
+
+  const router = new VueRouter({
+    mode: 'history',//takes the breadcrum
+    routes // short for `routes: routes`
+  })
+
+
+  
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -19,7 +86,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +96,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-});
+    router,
+}).$mount('#app');
+
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));

@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Yoeunes\Notify\NotifyServiceProvider::class,
 
         /*
          * Application Service Providers...
